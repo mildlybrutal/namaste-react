@@ -1,21 +1,24 @@
 import React from "react";
 import ReactDom from "react-dom/client";
+import image from "./imageSample.jpg";
+const root = ReactDOM.createRoot(document.getElementById("root"));
+// JSX => Babel transples into React.createElement()
 
-const parent = React.createElement("div", { id: "parent" }, [
-	React.createElement("div", { id: "child" }, [
-		React.createElement("h1", {}, "I am h1"),
-		React.createElement("h2", {}, "I am h2"),
-	]),
-	React.createElement("div", { id: "child2" }, [
-		React.createElement("h1", {}, "I am h1"),
-		React.createElement("h2", {}, "I am h2"),
-	]),
-]);
-const heading = React.createElement(
-	"h1",
-	{ id: "heading", xyz: "lol" },
-	"Hello World from React!"
+const Title = () => (
+	<h1 id="heading" className="lol" tabIndex="5">
+		Title
+	</h1>
 );
 
-const root = ReactDOM.createRoot(document.getElementById("root")); // Object
-root.render(parent);
+// React functional component
+const HeadingComponent = () => (
+	<div id="container">
+		{Title()}
+		<Title></Title>
+		<Title />
+		<h1 className="xd">Hello lol!</h1>
+	</div>
+);
+//{data} => curly brases prevents cross side scripting attack
+// Component Composition => Reusability
+root.render(<HeadingComponent />);
