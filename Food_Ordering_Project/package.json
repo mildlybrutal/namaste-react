@@ -1,0 +1,29 @@
+{
+  "name": "food_ordering_project",
+  "version": "1.0.0",
+  "description": "Food Ordering Project React",
+  "main": "App.js",
+  "scripts": {
+    "start": "npx parcel index.html",
+    "build": "npm parcel build index.html",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mildlybrutal/namaste-react.git"
+  },
+  "author": "Akash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mildlybrutal/namaste-react/issues"
+  },
+  "homepage": "https://github.com/mildlybrutal/namaste-react#readme",
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
