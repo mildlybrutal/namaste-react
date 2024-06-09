@@ -33,8 +33,23 @@ Theory questions of EP4:
 11. What is props in React? Ways to
     Ans. Props are used to pass the data from parent component to child component. Passing a prop to a function is like
     passing an argument to a function. There are two ways to pass the props in React:
-    1. Using props  
+
+    1. Using props
     2. Using spread operator
 
 12. What is Config Driven UI ?
-Ans. Config Driven UI is a way to build the UI using configuration. It is used to build the UI without writing the code.
+    Ans. Config Driven UI is a way to build the UI using configuration. It is used to build the UI without writing the code.
+
+Theory questions of EP5 :
+
+1. What is the difference between Named Export, Default export and _ as export?
+   Ans. Names Export is used to export multiple components whereas Default is used for one. And _ is used for re-exporting all exports from another module under a specific namespace
+
+2. What is the importance of config.js file ?
+   And. It is used to store all constants and re usable files.
+
+3. What are React Hooks?
+   Ans. It is a normal js utility function.
+
+4. Why do we need a useState Hook?
+   Ans. To get the sync of the UI and logic behind the functionality. Whenever a state variable updates, React re-rendes the component.
