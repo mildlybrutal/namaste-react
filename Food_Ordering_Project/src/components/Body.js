@@ -1,52 +1,66 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import resList from "../utils/mockData";
+import Shimmer from "./Shimmer";
+
 const Body = () => {
-	//Local State Variable - Super Powerful Variable -> setListofRest = Update the list
-	let [listOfRestaurants, setListOfRestaraunt] = useState([]);
-	let [searchInput, setSearchInput] = useState("");
+	// Local State Variable - Super Powerful Variable -> setListofRest = Update the list
+	const [listOfRestaurants, setListOfRestaurants] = useState([]);
+	const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+	const [searchInput, setSearchInput] = useState("");
+
 	useEffect(() => {
 		fetchData();
 	}, []);
 
 	const fetchData = async () => {
-		const data = await fetch(
-			"https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-		);
+		try {
+			const response = await fetch(
+				"https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.1163192&lng=79.0705079&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+			);
+			const json = await response.json();
 
-		const json = await data.json();
-		console.log(json);
-		//Optional Chaining
-		const restaurantCards = json?.data?.cards[2]?.data?.data?.cards;
-
-		setListOfRestaraunt(restaurantCards);
+			// Optional Chaining
+			const restaurantCards =
+				json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+					?.restaurants;
+			setListOfRestaurants(restaurantCards);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
+	// Conditional Rendering
 	if (listOfRestaurants.length === 0) {
-		return <h1>Loading...</h1>;
+		return <Shimmer />;
 	}
 
-	return (
+	const handleSearch = () => {
+		if (searchInput.trim() === "") {
+			setListOfRestaurants(filteredRestaurants);
+		} else {
+			const filteredRestaurants = listOfRestaurants.filter((res) =>
+				res.info.name.toLowerCase().includes(searchInput.toLowerCase())
+			);
+			setListOfRestaurants(filteredRestaurants);
+		}
+	};
+
+	return listOfRestaurants.length === 0 ? (
+		<Shimmer />
+	) : (
 		<div className="body">
 			<div className="search">
 				<input
-					type="search"
-					placeholder="Search your restaraunt"
+					type="text"
+					placeholder="Search your restaurant"
 					className="search-bar"
 					value={searchInput}
 					onChange={(e) => {
 						setSearchInput(e.target.value);
 					}}
 				></input>
-				<button
-					className="search-btn"
-					onClick={() => {
-						const searchList = resList.filter((res) =>
-							res.info.name.toLowerCase().includes(searchInput.toLowerCase())
-						);
-						setListOfRestaraunt(searchList);
-					}}
-				>
+				<button className="search-btn" onClick={handleSearch}>
 					Search
 				</button>
 			</div>
@@ -57,7 +71,7 @@ const Body = () => {
 						const filteredList = listOfRestaurants.filter(
 							(res) => res.info.avgRating > 4
 						);
-						setListOfRestaraunt(filteredList);
+						setListOfRestaurants(filteredList);
 						console.log(listOfRestaurants);
 					}}
 				>
