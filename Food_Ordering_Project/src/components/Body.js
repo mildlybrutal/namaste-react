@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
 	// Local State Variable - Super Powerful Variable -> setListofRest = Update the list
@@ -22,6 +23,7 @@ const Body = () => {
 
 			// Optional Chaining
 			const restaurantCards =
+				//setListOfRestaurants();
 				json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
 					?.restaurants;
 			setListOfRestaurants(restaurantCards);
@@ -80,7 +82,7 @@ const Body = () => {
 			</div>
 			<div className="res-container">
 				{listOfRestaurants.map((res) => {
-					return <RestaurantCard key={res.info.id} resData={res} />;
+					return<Link key={res.info.id} to = {"/restaurants/"+res.info.id}> <RestaurantCard  resData={res} /></Link>;
 				})}
 			</div>
 		</div>
