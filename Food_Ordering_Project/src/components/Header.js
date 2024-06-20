@@ -1,6 +1,7 @@
 import { LOGO_URL } from "../utils/constants";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import LoginPage from "./LoginPage";
 
 const Header = () => {
 	const [btnNameReact, setBtnNameReact] = useState("Login");
@@ -28,6 +29,7 @@ const Header = () => {
 					<button
 						className="login"
 						onClick={() => {
+							<LoginPage />;
 							btnNameReact === "Login"
 								? setBtnNameReact("Logout")
 								: setBtnNameReact("Login");

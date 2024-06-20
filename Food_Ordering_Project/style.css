@@ -170,7 +170,7 @@
 	}
 }
 
-.login{
+.login {
 	background-color: #007bff;
 	color: white;
 	border: none;
@@ -184,3 +184,63 @@
 	justify-content: center;
 	margin: 10px;
 }
+
+#menu-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+}
+
+.menu-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border: 1px solid black;
+	padding: 25px;
+	margin: 15px;
+	font-size: medium;
+	background-color: #f0f0f0;
+}
+
+#name {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+}
+
+.dishes {
+	list-style: none;
+	padding: 0;
+}
+
+.dishes li {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.dishes li:last-child {
+	border-bottom: none;
+}
+
+.dish-name {
+	margin-right: 50px;
+	font-weight: bold;
+	color: #333;
+}
+
+.dish-price {
+	margin-left: 50px;
+	color: #e8491d;
+	font-weight: bold;
+}
+.dishes-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+

@@ -19,7 +19,7 @@ const RestaurantMenu = () => {
 	if (resInfo === null) {
 		return <Shimmer />;
 	}
-	const { name, cuisines, costForTwo } =
+	const { name, areaName, cuisines, costForTwo } =
 		resInfo?.cards[2]?.card?.card?.info || {};
 
 	const itemCards =
@@ -32,19 +32,29 @@ const RestaurantMenu = () => {
 	console.log(itemCards);
 	return (
 		<div className="menu">
-			<h1>{name}</h1>
-			<p>
-				{cuisines.join(",")} - {costForTwo / 100}
-			</p>
-			<h2>Menu</h2>
-			<ul>
-				{itemCards.map((item) => (
-					<li key={item.card.info.id}>
-						{item.card.info.name} - {"Rs. "}
-						{item.card.info.price / 100 || item.card.info.defaultPrice / 100}
-					</li>
-				))}
-			</ul>
+			<h1 id="name">{name}</h1>
+			<div className="menu-header">
+				<h2>{"Outlet: " + areaName}</h2>
+				<p>
+					{cuisines.join(",")} - {costForTwo / 100} {"for two"}
+				</p>
+			</div>
+
+			<h2 id="menu-title">Menu</h2>
+			<div className="dishes-container">
+				<ul className="dishes">
+					{itemCards.map((item) => (
+						<li key={item.card.info.id}>
+							<div className="dish-name">{item.card.info.name}</div>
+							<div className="dish-price">
+								{item.card.info.price / 100 ||
+									item.card.info.defaultPrice / 100}
+								{"₹"}
+							</div>
+						</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 };
