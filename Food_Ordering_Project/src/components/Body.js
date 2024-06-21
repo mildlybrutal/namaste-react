@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
 	// Local State Variable - Super Powerful Variable -> setListofRest = Update the list
@@ -31,7 +32,10 @@ const Body = () => {
 			console.error(error);
 		}
 	};
-
+	const onlineStatus = useOnlineStatus();
+	if (onlineStatus === false) {
+		return <h1>Looks like you are offline, please connect to the internet</h1>;
+	}
 	// Conditional Rendering
 	if (listOfRestaurants.length === 0) {
 		return <Shimmer />;
@@ -82,7 +86,12 @@ const Body = () => {
 			</div>
 			<div className="res-container">
 				{listOfRestaurants.map((res) => {
-					return<Link key={res.info.id} to = {"/restaurants/"+res.info.id}> <RestaurantCard  resData={res} /></Link>;
+					return (
+						<Link key={res.info.id} to={"/restaurants/" + res.info.id}>
+							{" "}
+							<RestaurantCard resData={res} />
+						</Link>
+					);
 				})}
 			</div>
 		</div>
