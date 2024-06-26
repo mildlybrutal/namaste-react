@@ -20,22 +20,26 @@ const RestaurantMenu = () => {
 
 	console.log(itemCards);
 	return (
-		<div className="menu">
-			<h1 id="name">{name}</h1>
-			<div className="menu-header">
-				<h2>{"Outlet: " + areaName}</h2>
-				<p>
-					{cuisines.join(",")} - {costForTwo / 100} {"for two"}
-				</p>
+		<div className="m-10 p-6">
+			<div className="bg-zinc-300">
+				<h1 id="name" className="font-semibold text-2xl m-4 p-4">
+					{name}
+				</h1>
+				<div className="text-xl font-medium m-4 p-4">
+					<h2>{"Outlet: " + areaName}</h2>
+					<p>
+						{cuisines.join(",")} - {costForTwo / 100} {"for two"}
+					</p>
+				</div>
 			</div>
 
-			<h2 id="menu-title">Menu</h2>
-			<div className="dishes-container">
-				<ul className="dishes">
+			<h2  className="font-bold text-3xl text-center m-4 p-4 mb - 4">Menu</h2>
+			<div className="m-4 p-4 text-lg ">
+				<ul className="dishes space-y-2">
 					{itemCards.map((item) => (
-						<li key={item.card.info.id}>
-							<div className="dish-name">{item.card.info.name}</div>
-							<div className="dish-price">
+						<li key={item.card.info.id}  className="flex justify-between items-center border-b border-gray-200 pb-2">
+							<div className="font-medium">{item.card.info.name}</div>
+							<div className="font-semibold">
 								{item.card.info.price / 100 ||
 									item.card.info.defaultPrice / 100}
 								{"₹"}

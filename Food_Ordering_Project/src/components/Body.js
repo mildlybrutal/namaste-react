@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withVegLabel } from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
@@ -10,6 +10,8 @@ const Body = () => {
 	const [listOfRestaurants, setListOfRestaurants] = useState([]);
 	const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
+
+	const RestaurantCardVeg = withVegLabel(RestaurantCard);
 
 	useEffect(() => {
 		fetchData();
@@ -40,7 +42,6 @@ const Body = () => {
 	if (listOfRestaurants.length === 0) {
 		return <Shimmer />;
 	}
-
 	const handleSearch = () => {
 		if (searchInput.trim() === "") {
 			setListOfRestaurants(filteredRestaurants);
@@ -66,7 +67,10 @@ const Body = () => {
 						setSearchInput(e.target.value);
 					}}
 				></input>
-				<button className="px-4 py-2 bg-green-100 m-4 rounded-lg" onClick={handleSearch}>
+				<button
+					className="px-4 py-2 bg-green-100 m-4 rounded-lg"
+					onClick={handleSearch}
+				>
 					Search
 				</button>
 			</div>
@@ -91,6 +95,11 @@ const Body = () => {
 					return (
 						<Link key={res.info.id} to={"/restaurants/" + res.info.id}>
 							{" "}
+							{res.info.veg ? (
+								<RestaurantCardVeg resData={res} />
+							) : (
+								<RestaurantCard resData={res} />
+							)}
 							<RestaurantCard resData={res} />
 						</Link>
 					);

@@ -11,7 +11,7 @@ const RestaurantCard = (props) => {
 		avgRating,
 	} = resData?.info;
 	return (
-		<div className="m-4 p-4 w-[250px] h-[450] rounded-lg shadow-lg bg-gray-100 hover:bg-gray-200">
+		<div className="m-4 p-4 w-[250px] rounded-lg shadow-lg bg-gray-100 hover:bg-gray-200">
 			<img
 				className="rounded-lg"
 				src={CDN_URL + cloudinaryImageId}
@@ -26,4 +26,19 @@ const RestaurantCard = (props) => {
 	);
 };
 
+// Higher order component
+//Input - RestaurantCard  ==> Output - RestaurantCardPromoted
+
+const withVegLabel = (RestaurantCard) => {
+	return (props) => {
+		return (
+			<div>
+				<label className="absolute bg-green-800 text-white m-2 p-2 rounded-lg">Veg</label>
+				<RestaurantCard {...props} />
+			</div>
+		);
+	};
+};
+
 export default RestaurantCard;
+export { withVegLabel };
