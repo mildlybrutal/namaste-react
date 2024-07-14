@@ -1,43 +1,49 @@
 import { CDN_URL } from "../utils/constants";
-
-const RestaurantCard = (props) => {
-	const { resData } = props;
-	const {
-		cloudinaryImageId,
-		name,
-		cuisines,
-		costForTwo,
-		//sla: { deliveryTime },
-		avgRating,
-	} = resData?.info;
+import { useContext } from "react";
+import UserContext from "../utils/UserContext";
+const RestaurantCard = ({ resData }) => {
+	const { cloudinaryImageId, name, cuisines, costForTwo, avgRating } =
+		resData?.info;
+	const { loggedInUser } = useContext(UserContext);
 	return (
-		<div className="m-4 p-4 w-[250px] rounded-lg shadow-lg bg-gray-100 hover:bg-gray-200">
+		<div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
 			<img
-				className="rounded-lg"
+				className="w-full h-48 object-cover"
 				src={CDN_URL + cloudinaryImageId}
-				alt="res-logo"
+				alt={name}
 			/>
-			<h3 className="font-bold py-4 text-lg">{name}</h3>
-			<h4>{cuisines.join(", ")}</h4>
-			<h4>{avgRating} Stars</h4>
-			<h4>{costForTwo}</h4>
-			{/* <h4>{deliveryTime} minutes</h4> */}
+			<div className="p-4">
+				<h3 className="font-bold text-xl mb-2 text-gray-800">{name}</h3>
+				<p className="text-sm text-gray-600 mb-2">{cuisines.join(", ")}</p>
+				<div className="flex justify-between items-center">
+					<span
+						className={`px-2 py-1 rounded-full text-sm font-semibold ${
+							avgRating >= 4
+								? "bg-green-500 text-white"
+								: "bg-orange-500 text-white"
+						}`}
+					>
+						{avgRating} ★
+					</span>
+					<span className="text-sm font-medium text-gray-700">
+						{costForTwo}
+					</span>
+					<span>{loggedInUser}</span>
+				</div>
+			</div>
 		</div>
 	);
 };
 
-// Higher order component
-//Input - RestaurantCard  ==> Output - RestaurantCardPromoted
-
 const withVegLabel = (RestaurantCard) => {
-	return (props) => {
-		return (
-			<div>
-				<label className="absolute bg-green-800 text-white m-2 p-2 rounded-lg">Veg</label>
-				<RestaurantCard {...props} />
+	return (props) => (
+		<div className="relative">
+			<div className="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold z-10">
+				Pure Veg
 			</div>
-		);
-	};
+			<RestaurantCard {...props} />
+		</div>
+	);
 };
 
 export default RestaurantCard;

@@ -1,12 +1,10 @@
 import RestaurantCard, { withVegLabel } from "./RestaurantCard";
 import { useState, useEffect } from "react";
-import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
-	// Local State Variable - Super Powerful Variable -> setListofRest = Update the list
 	const [listOfRestaurants, setListOfRestaurants] = useState([]);
 	const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
@@ -24,86 +22,86 @@ const Body = () => {
 			);
 			const json = await response.json();
 
-			// Optional Chaining
 			const restaurantCards =
-				//setListOfRestaurants();
 				json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-					?.restaurants;
+					?.restaurants || [];
 			setListOfRestaurants(restaurantCards);
+			setFilteredRestaurants(restaurantCards);
 		} catch (error) {
-			console.error(error);
+			console.error("Error fetching restaurant data:", error);
 		}
 	};
+
 	const onlineStatus = useOnlineStatus();
 	if (onlineStatus === false) {
-		return <h1>Looks like you are offline, please connect to the internet</h1>;
+		return (
+			<div className="flex items-center justify-center h-screen bg-gray-100">
+				<h1 className="text-2xl font-bold text-gray-800">
+					Looks like you're offline. Please check your internet connection.
+				</h1>
+			</div>
+		);
 	}
-	// Conditional Rendering
+
 	if (listOfRestaurants.length === 0) {
 		return <Shimmer />;
 	}
+
 	const handleSearch = () => {
 		if (searchInput.trim() === "") {
 			setListOfRestaurants(filteredRestaurants);
 		} else {
-			const filteredRestaurants = listOfRestaurants.filter((res) =>
+			const filtered = filteredRestaurants.filter((res) =>
 				res.info.name.toLowerCase().includes(searchInput.toLowerCase())
 			);
-			setListOfRestaurants(filteredRestaurants);
+			setListOfRestaurants(filtered);
 		}
 	};
 
-	return listOfRestaurants.length === 0 ? (
-		<Shimmer />
-	) : (
-		<div className="body">
-			<div className="search m-4 p-4">
-				<input
-					type="text"
-					placeholder="Search your restaurant"
-					className="border  border-solid border-black focus:ring-2"
-					value={searchInput}
-					onChange={(e) => {
-						setSearchInput(e.target.value);
-					}}
-				></input>
-				<button
-					className="px-4 py-2 bg-green-100 m-4 rounded-lg"
-					onClick={handleSearch}
-				>
-					Search
-				</button>
-			</div>
-			<div className="filter flex">
-				<div className="search m-4 p-4 flex items-center">
+	const handleTopRated = () => {
+		const topRated = filteredRestaurants.filter(
+			(res) => res.info.avgRating > 4
+		);
+		setListOfRestaurants(topRated);
+	};
+
+	return (
+		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<div className="mb-8">
+				<div className="flex items-center justify-center mb-4">
+					<input
+						type="text"
+						placeholder="Search your restaurant"
+						className="w-full max-w-md px-4 py-2 rounded-l-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+						value={searchInput}
+						onChange={(e) => setSearchInput(e.target.value)}
+					/>
 					<button
-						className="px-4 py-2  bg-green-100 rounded-lg"
-						onClick={() => {
-							const filteredList = listOfRestaurants.filter(
-								(res) => res.info.avgRating > 4
-							);
-							setListOfRestaurants(filteredList);
-							console.log(listOfRestaurants);
-						}}
+						className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-r-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+						onClick={handleSearch}
+					>
+						Search
+					</button>
+				</div>
+				<div className="flex justify-center">
+					<button
+						className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition duration-300 ease-in-out"
+						onClick={handleTopRated}
 					>
 						Top Rated Restaurants
 					</button>
 				</div>
 			</div>
-			<div className="flex flex-wrap justify-center">
-				{listOfRestaurants.map((res) => {
-					return (
-						<Link key={res.info.id} to={"/restaurants/" + res.info.id}>
-							{" "}
-							{res.info.veg ? (
-								<RestaurantCardVeg resData={res} />
-							) : (
-								<RestaurantCard resData={res} />
-							)}
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+				{listOfRestaurants.map((res) => (
+					<Link key={res.info.id} to={"/restaurants/" + res.info.id}>
+						{res.info.veg ? (
+							<RestaurantCardVeg resData={res} />
+						) : (
 							<RestaurantCard resData={res} />
-						</Link>
-					);
-				})}
+						)}
+					</Link>
+				))}
 			</div>
 		</div>
 	);
