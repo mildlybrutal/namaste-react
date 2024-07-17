@@ -2,8 +2,9 @@
 
 ->create-react-app
 -> configured tailwindcss
-
-#features 
+-> Login Page
+-> Signup Page
+#features
 - Login / Sign Up page ->  **Start**
     - Sign in / up form
     - redirect to browse page
