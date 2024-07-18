@@ -2,8 +2,12 @@
 
 ->create-react-app
 -> configured tailwindcss
+-> Header
+-> Routing of the app
 -> Login Page
 -> Signup Page
+-> Form Validation
+-> **useRefs Hook**
 #features
 - Login / Sign Up page ->  **Start**
     - Sign in / up form
