@@ -6,25 +6,29 @@ const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const name = useRef(null);
-  const email = useRef(null);
-  const password = useRef(null);
-  const toggleSignINform = () => {
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
+    setErrorMessage(null); // Clear error message when toggling form
   };
 
   const handleButtonClick = () => {
-    //Validate the form data
-    console.log(email.current.value);
-    console.log(password.current.value);
-    const message = checkValidData(
-      email.current.value,
-      password.current.value,
-      name.current.value,
-    );
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const name = nameRef.current?.value;
+
+    const message = checkValidData(email, password, name);
     setErrorMessage(message);
-    console.log(message);
+
+    if (!message) {
+      // Proceed with sign in or sign up logic
+      console.log("Form is valid, proceed with authentication");
+    }
   };
+
   return (
     <div>
       <Header />
@@ -36,29 +40,28 @@ const Login = () => {
       </div>
 
       <form
-        className="p-12 w-3/12 bg-black absolute mt-36 mx-auto right-0 left-0 text-white  rounded-lg bg-opacity-80"
+        className="p-12 w-3/12 bg-black absolute mt-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80"
         onSubmit={(e) => e.preventDefault()}
       >
         <h1 className="font-bold text-3xl py-4">
-          {isSignInForm ? "Sign In" : "Sign Out"}
+          {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
         {!isSignInForm && (
           <input
-            ref={name}
+            ref={nameRef}
             type="text"
             placeholder="Full Name"
             className="p-4 my-4 w-full bg-gray-700"
           />
         )}
         <input
-          ref={email}
-          type="text"
+          ref={emailRef}
+          type="email"
           placeholder="Email Address"
           className="p-4 my-4 w-full bg-gray-700"
         />
-
         <input
-          ref={password}
+          ref={passwordRef}
           type="password"
           placeholder="Password"
           className="p-4 my-4 w-full bg-gray-700"
@@ -72,18 +75,18 @@ const Login = () => {
           className="bg-red-700 w-full p-3 my-6 rounded-lg"
           onClick={handleButtonClick}
         >
-          {isSignInForm ? "Sign In" : "Sign Out"}
+          {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <h1 className="text-center text-gray-300">OR</h1>
         <button className="bg-red-700 w-full p-3 my-6 rounded-lg">
           Sign In with Google
         </button>
-        <p className="text-center">Forgot Password ? </p>
+        <p className="text-center">Forgot Password?</p>
         <p className="py-4 text-gray-300">
-          {isSignInForm ? "New to Netflix" : "Already a User"} ?{" "}
+          {isSignInForm ? "New to Netflix" : "Already a user"}?{" "}
           <span
             className="font-bold text-white cursor-pointer"
-            onClick={toggleSignINform}
+            onClick={toggleSignInForm}
           >
             {isSignInForm ? "Sign Up Now" : "Sign In"}
           </span>
@@ -92,4 +95,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

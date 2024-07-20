@@ -8,6 +8,9 @@
 -> Signup Page
 -> Form Validation
 -> **useRefs Hook**
+-> Firebase Setup
+-> Deploying the app for production
+-> logging in users
 #features
 - Login / Sign Up page ->  **Start**
     - Sign in / up form
