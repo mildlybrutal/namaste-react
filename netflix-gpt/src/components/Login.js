@@ -55,6 +55,7 @@ const Login = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage("user not found");
+          console.log(errorCode + ": " + errorMessage);
         });
     }
   };
