@@ -11,6 +11,7 @@
 -> Firebase Setup
 -> Deploying the app for production
 -> logging in users
+-> using redux store to redirect to browse page
 #features
 - Login / Sign Up page ->  **Start**
     - Sign in / up form
